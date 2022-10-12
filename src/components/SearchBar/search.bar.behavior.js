@@ -24,7 +24,7 @@ const SearchBarBehavior = (searchResultDOMelement) => {
       if (!searchResultDOMelement.current.contains(e.target)) setIsOpen(false);
     };
     document.body.addEventListener("click", onBodyClick);
-  }, [searchTerm]);
+  }, [searchTerm, searchResultDOMelement]);
 
   const onInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -32,15 +32,14 @@ const SearchBarBehavior = (searchResultDOMelement) => {
 
   const searchResultsList = searchResponse.map((result) => {
     return (
-      <Link to={"/game/" + result.id} style={{ textDecoration: "none" }}>
+      <Link to={"/game/" + result.id} key={result.id}>
         <div
           onClick={() => {
             setIsOpen(false);
           }}
-          key={result.id}
         >
           <img src={result.imageUrl} alt="Not found"></img>
-          <strong>Game name</strong>: {result.name}
+          <strong>{result.name}</strong>
         </div>
       </Link>
     );

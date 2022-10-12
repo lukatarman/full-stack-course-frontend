@@ -5,18 +5,7 @@ import { getSearchResults } from "../../adapters/http-client/http.client.adapter
 const SearchBarBehavior = (searchResultDOMelement) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResponse, setSearchResponse] = useState([]);
-  const [debounceTerm, setDebounceTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setDebounceTerm(searchTerm);
-    }, 500);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [searchTerm]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +24,7 @@ const SearchBarBehavior = (searchResultDOMelement) => {
       if (!searchResultDOMelement.current.contains(e.target)) setIsOpen(false);
     };
     document.body.addEventListener("click", onBodyClick);
-  }, [debounceTerm, searchResultDOMelement]);
+  }, [searchTerm, searchResultDOMelement]);
 
   const onInputChange = (e) => {
     setSearchTerm(e.target.value);

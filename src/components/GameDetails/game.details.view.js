@@ -1,24 +1,14 @@
-import { Table } from "react-bootstrap";
-import GameDetailsBehavior from "./game.details.behavior.js";
+import { useParams, useRouteMatch } from "react-router-dom";
 
 const GameDetails = () => {
-  const [gameData, tableContent] = GameDetailsBehavior();
+  let { url } = useRouteMatch();
+  let { id } = useParams();
 
   return (
     <div>
-      <div>
-        <img src={gameData.imageUrl} alt="Not found" />
-        <div>{gameData.name}</div>
-      </div>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Month</th>
-            <th>Average Players</th>
-          </tr>
-        </thead>
-        <tbody>{tableContent}</tbody>
-      </Table>
+      <div>{url}</div>
+      <div>{id}</div>
+      <div>{id.name}</div>
     </div>
   );
 };

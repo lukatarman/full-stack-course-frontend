@@ -1,9 +1,8 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Link } from "react-router-dom";
 import AppBehavior from "./app.behavior.js";
 import GameDetails from "../GameDetails/game.details.view.js";
 import SearchBar from "../SearchBar/search.bar.view.js";
 import TopGamesTable from "../TopGamesTable/top.games.table.view.js";
-import "../../assets/global.css";
 
 const App = () => {
   const [topTenGames, tableOptions] = AppBehavior();

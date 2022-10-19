@@ -5,7 +5,18 @@ import { getSearchResults } from "../../adapters/http-client/http.client.adapter
 const SearchBarBehavior = (searchResultDOMelement) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResponse, setSearchResponse] = useState([]);
+  const [debounceTerm, setDebounceTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebounceTerm(searchTerm);
+    }, 500);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [searchTerm]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +35,7 @@ const SearchBarBehavior = (searchResultDOMelement) => {
       if (!searchResultDOMelement.current.contains(e.target)) setIsOpen(false);
     };
     document.body.addEventListener("click", onBodyClick);
-  }, [searchTerm]);
+  }, [debounceTerm, searchResultDOMelement]);
 
   const onInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -32,15 +43,14 @@ const SearchBarBehavior = (searchResultDOMelement) => {
 
   const searchResultsList = searchResponse.map((result) => {
     return (
-      <Link to={"/game/" + result.id} style={{ textDecoration: "none" }}>
+      <Link to={"/game/" + result.id} key={result.id}>
         <div
           onClick={() => {
             setIsOpen(false);
           }}
-          key={result.id}
         >
           <img src={result.imageUrl} alt="Not found"></img>
-          <strong>Game name</strong>: {result.name}
+          <span className="fw-bold">{result.name}</span>
         </div>
       </Link>
     );
